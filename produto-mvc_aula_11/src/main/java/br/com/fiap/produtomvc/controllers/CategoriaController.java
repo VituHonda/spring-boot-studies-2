@@ -58,7 +58,7 @@ public class CategoriaController {
     public String findById(@PathVariable("id") Long id, Model model ){
 
         Categoria categoria = repository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Produto inválido - id: " + id)
+                () -> new IllegalArgumentException("Recurso inválido - id: " + id)
         );
 
         model.addAttribute("categoria", categoria);
