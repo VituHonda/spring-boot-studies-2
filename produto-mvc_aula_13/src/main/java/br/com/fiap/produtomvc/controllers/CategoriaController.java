@@ -22,9 +22,6 @@ public class CategoriaController {
     @Autowired
     private CategoriaService service;
 
-    @Autowired
-    private CategoriaRepository repository;
-
     @GetMapping("/form")
     public String loadFormCategoria(Model model) {
         model.addAttribute("categoria", new Categoria());
@@ -32,14 +29,15 @@ public class CategoriaController {
     }
 
     @PostMapping()
-    @Transactional
+//    @Transactional
     public String insert(@Valid Categoria categoria,
                          BindingResult result,
                          RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "categoria/nova-categoria";
         }
-        repository.save(categoria);
+//        repository.save(categoria);
+        categoria = service.insert(categoria);
         attributes.addFlashAttribute("mensagem", "Categoria salva com sucesso!");
         return "redirect:/categorias";
     }
@@ -54,13 +52,9 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public String findById(@PathVariable("id") Long id, Model model) {
-
-        Categoria categoria = repository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Recurso inválido - " + id)
-        );
-
+        Categoria categoria = service.findById(id);
         model.addAttribute("categoria", categoria);
         return "/categoria/editar-categoria";
     }
@@ -73,20 +67,14 @@ public class CategoriaController {
             categoria.setId(id);
             return "/categoria/editar-categoria";
         }
-        repository.save(categoria);
+//        repository.save(categoria);
+        service.update(id, categoria);
         return "redirect:/categorias";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {
-        if (!repository.existsById(id)) {
-            throw new IllegalArgumentException("Recurso inválido - id: " + id);
-        }
-        try {
-            repository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Falha de integridade referencial - id: " + id);
-        }
+        service.delete(id);
         return "redirect:/categorias";
     }
 
