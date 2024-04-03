@@ -66,12 +66,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-
-		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc11</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -88,6 +82,8 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+
 		</plugins>
 	</build>
 

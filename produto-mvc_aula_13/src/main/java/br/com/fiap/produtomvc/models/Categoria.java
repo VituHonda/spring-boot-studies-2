@@ -20,8 +20,7 @@ import java.util.Objects;
 public class Categoria {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @SequenceGenerator(name = "categoria_seq", sequenceName = "categoria_seq", allocationSize = 1)
     private Long id;
 
