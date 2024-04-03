@@ -4,6 +4,7 @@ import br.com.fiap.produtomvc.models.Categoria;
 import br.com.fiap.produtomvc.models.Produto;
 import br.com.fiap.produtomvc.repository.CategoriaRepository;
 import br.com.fiap.produtomvc.repository.ProdutoRepository;
+import br.com.fiap.produtomvc.services.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoRepository repository;
+
+    @Autowired
+    private ProdutoService service;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -55,9 +59,11 @@ public class ProdutoController {
 
     // HTTP - GET -  http:localhost:8080/produtos
     @GetMapping()
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public String findAll(Model model){
-        model.addAttribute("produtos", repository.findAll());
+        List<Produto> produtos = service.findAll();
+//        model.addAttribute("produtos", repository.findAll());
+        model.addAttribute("produtos", produtos);
         return "/produto/listar-produtos";
     }
 

@@ -2,6 +2,7 @@ package br.com.fiap.produtomvc.controllers;
 
 import br.com.fiap.produtomvc.models.Categoria;
 import br.com.fiap.produtomvc.repository.CategoriaRepository;
+import br.com.fiap.produtomvc.services.CategoriaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,9 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/categorias")
 public class CategoriaController {
+
+    @Autowired
+    private CategoriaService service;
 
     @Autowired
     private CategoriaRepository repository;
@@ -39,9 +45,11 @@ public class CategoriaController {
     }
 
     @GetMapping()
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public String findAll(Model model) {
-        model.addAttribute("categorias", repository.findAll());
+        List<Categoria> categorias = service.findAll();
+//        model.addAttribute("categorias", repository.findAll());
+        model.addAttribute("categorias", categorias);
         return "/categoria/listar-categorias";
     }
 

@@ -21,7 +21,6 @@ public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "categoria_seq", sequenceName = "categoria_seq", allocationSize = 1)
     private Long id;
 
     @NotBlank(message = "Campo requerido")

@@ -21,7 +21,6 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "produto_seq", sequenceName = "produto_seq", allocationSize = 1)
     private Long id;
 
     @NotBlank(message = "Campo requerido")
