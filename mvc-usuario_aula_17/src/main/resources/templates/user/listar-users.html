@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Lista de Categorias</title>
+    <title>Lista de Usuarios</title>
 </head>
 <body>
 <div layout:fragment="conteudo">
@@ -20,13 +20,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${categorias.empty}">
+                    <tr th:if="${users.empty}">
                         <td colspan="2">Lista de usuários vazia</td>
                     </tr>
                     <tr th:each="user : ${users}" >
                         <td><span th:text="${user.nome}"> Nome </span></td>
                         <td><span th:text="${user.email}"> Email </span></td>
-                        <td><span th:text="${user.dataNascimento}"> Data de nascimento </span></td>
+                        <td><span th:text="${temporals.format(user.dataNascimento, 'dd/MM/yyyy')}"> Data de nascimento </span></td>
                         <td>
                             <form th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
                                 <input type="hidden" name="_method" value="delete">
