@@ -26,7 +26,8 @@
                     <tr th:each="user : ${users}" >
                         <td><span th:text="${user.nome}"> Nome </span></td>
                         <td><span th:text="${user.email}"> Email </span></td>
-                        <td><span th:text="${temporals.format(user.dataNascimento, 'dd/MM/yyyy')}"> Data de nascimento </span></td>
+                        <td><span th:text="${#temporals.format(user.dataNascimento, 'dd/MM/yyyy')}"> Data de Nascimento </span></td>
+
                         <td>
                             <form th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
                                 <input type="hidden" name="_method" value="delete">
