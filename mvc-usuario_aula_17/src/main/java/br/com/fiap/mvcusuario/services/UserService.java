@@ -37,6 +37,7 @@ public class UserService {
 
     @Transactional
     public User update(User user) {
+        user.setMoment(Instant.now());
         return repository.save(user);
     }
 

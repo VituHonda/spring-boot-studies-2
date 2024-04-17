@@ -17,8 +17,9 @@
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" th:action="@{/categorias/{id}(id=${categoria.id})}" th:object="${categoria}" method="post">
+                <form action="#" th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
                     <input type="hidden" name="_method" value="put">
+
                     <div class="row mb-3">
                         <label for="nome" class="col-sm-1 col-form-label">Nome:</label>
                         <div class="col-sm-5">
@@ -42,7 +43,7 @@
                     <div class="row mb-3">
                         <label for="dataNascimento" class="col-sm-1 col-form-label">Data de nascimento:</label>
                         <div class="col-sm-5">
-                            <input id="dataNascimento" class="form-control" type="text" th:field="*{dataNascimento}" />
+                            <input id="dataNascimento" class="form-control" type="date" th:field="*{dataNascimento}" />
                         </div>
                         <div class="col-sm-5">
                             <span class="mensagem" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}"></span>
@@ -52,7 +53,7 @@
                     <div class="row mb-3">
                         <label for="senha" class="col-sm-1 col-form-label">Senha:</label>
                         <div class="col-sm-5">
-                            <input id="senha" class="form-control" type="text" th:field="*{senha}" />
+                            <input id="senha" class="form-control" type="password" th:field="*{senha}" />
                         </div>
                         <div class="col-sm-5">
                             <span class="mensagem" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
