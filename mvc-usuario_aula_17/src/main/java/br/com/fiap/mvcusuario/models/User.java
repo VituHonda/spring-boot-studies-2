@@ -40,6 +40,9 @@ public class User {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
 
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant moment;
+
     @NotBlank(message = "Campo requerido")
     @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
     private String senha;

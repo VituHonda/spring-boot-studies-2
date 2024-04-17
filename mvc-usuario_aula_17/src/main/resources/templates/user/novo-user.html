@@ -53,7 +53,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-1 col-form-label" for="senha">Senha:</label>
                         <div class="col-sm-5">
-                            <input class="form-control" id="senha" th:field="*{senha}" type="text"/>
+                            <input class="form-control" id="senha" th:field="*{senha}" type="password"/>
                         </div>
                         <div class="col-sm-5">
                             <span class="mensagem" th:errors="*{senha}" th:if="${#fields.hasErrors('senha')}"></span>
