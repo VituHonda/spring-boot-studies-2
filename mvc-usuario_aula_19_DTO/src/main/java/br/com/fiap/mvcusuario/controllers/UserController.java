@@ -1,5 +1,6 @@
 package br.com.fiap.mvcusuario.controllers;
 
+import br.com.fiap.mvcusuario.dto.UserDTO;
 import br.com.fiap.mvcusuario.models.User;
 import br.com.fiap.mvcusuario.services.UserService;
 import jakarta.validation.Valid;
@@ -19,45 +20,44 @@ public class UserController {
 
     @GetMapping("/form")
     public String loadForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("userDTO", new UserDTO());
         return "usuarios/novo-usuario";
     }
 
     @PostMapping()
-    public String insert(@Valid User user,
+    public String insert(@Valid UserDTO userDTO,
                          BindingResult result,
                          RedirectAttributes attributes) {
         if(result.hasErrors()){
             return "usuarios/novo-usuario";
         }
-        user = service.insert(user);
-        attributes.addFlashAttribute("mensagem", "Produto salvo com sucesso");
+        userDTO = service.insert(userDTO);
+        attributes.addFlashAttribute("mensagem", "Usuario salvo com sucesso");
         return "redirect:/users/form";
     }
 
     @GetMapping()
     public String findAll(Model model){
-        model.addAttribute("users", service.findAll());
+        model.addAttribute("usersDTO", service.findAll());
         return "/usuarios/listar-usuarios";
     }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model ){
-        User user = service.findById(id);
-        model.addAttribute("user", user);
+        UserDTO userDTO = service.findById(id);
+        model.addAttribute("userDTO", userDTO);
         return "/usuarios/editar-usuario";
     }
 
     @PutMapping("/{id}")
     public String update(@PathVariable("id") Long id,
-                         @Valid User user,
+                         @Valid UserDTO userDTO,
                          BindingResult result){
         if(result.hasErrors()){
-            user.setId(id);
+            userDTO.setId(id);
             return "/usuarios/editar-usuario";
         }
-        System.out.println(user.getDataNascimento());
-        service.update(user);
+        service.updateDTO(id,userDTO);
         return "redirect:/users";
     }
 

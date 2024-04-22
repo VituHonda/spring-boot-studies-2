@@ -17,7 +17,7 @@
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" th:action="@{/users/{id}(id=${user.id})}" th:object="${user}" method="post">
+                <form action="#" th:action="@{/users/{id}(id=${userDTO.id})}" th:object="${userDTO}" method="post">
 
                     <input type="hidden" name="_method" value="put">
 

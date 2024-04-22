@@ -19,31 +19,45 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(readOnly = true)
-    public User findById(Long id){
+    public UserDTO findById(Long id){
 
         User user = repository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Recurso não encontrado")
         );
 
-        return user;
+        return new UserDTO(user);
     }
 
     @Transactional(readOnly = true)
     public List<UserDTO> findAll(){
         List<User> list = repository.findAll();
        return  list.stream().map(UserDTO::new).collect(Collectors.toList());
+       // return  list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
 
     }
 
     @Transactional
-    public User insert (User user){
-        user.setMoment(Instant.now());
-        return repository.save(user);
+    public UserDTO insert (UserDTO dto){
+        User entity = new User();
+        copyDtoToEntity(dto, entity);
+        entity.setMoment(Instant.now());
+        entity = repository.save(entity);
+        return new UserDTO(entity);
+    }
+
+    private void copyDtoToEntity(UserDTO dto, User entity) {
+        entity.setNome(dto.getNome());
+        entity.setEmail(dto.getEmail());
+        entity.setSenha(dto.getSenha());
+        entity.setDataNascimento(dto.getDataNascimento());
     }
 
     @Transactional
-    public User update ( User user){
-        return repository.save(user);
+    public UserDTO updateDTO(Long id, UserDTO dto){
+        User entity = repository.getReferenceById(id);
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new UserDTO(entity);
     }
 
     @Transactional
@@ -54,7 +68,7 @@ public class UserService {
         try{
             repository.deleteById(id);
         } catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException("Falha de integridade referencial");
+            throw new IllegalArgumentException("Falha de integridade referencial");
         }
     }
 }
