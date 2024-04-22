@@ -1,6 +1,7 @@
 package br.com.fiap.mvcusuario.controllers;
 
 import br.com.fiap.mvcusuario.dto.UserDTO;
+import br.com.fiap.mvcusuario.dto.UserSEDTO;
 import br.com.fiap.mvcusuario.models.User;
 import br.com.fiap.mvcusuario.services.UserService;
 import jakarta.validation.Valid;
@@ -58,6 +59,18 @@ public class UserController {
             return "/usuarios/editar-usuario";
         }
         service.updateDTO(id,userDTO);
+        return "redirect:/users";
+    }
+
+    @PutMapping("/se/{id}")
+    public String update(@PathVariable("id") Long id,
+                         @Valid UserSEDTO userSEDTO,
+                         BindingResult result){
+        if(result.hasErrors()){
+            userSEDTO.setId(id);
+            return "/usuarios/editar-usuario-senha-email";
+        }
+        service.updateSEDTO(id,userSEDTO);
         return "redirect:/users";
     }
 

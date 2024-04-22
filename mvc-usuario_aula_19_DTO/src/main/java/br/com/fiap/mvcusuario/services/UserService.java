@@ -1,6 +1,7 @@
 package br.com.fiap.mvcusuario.services;
 
 import br.com.fiap.mvcusuario.dto.UserDTO;
+import br.com.fiap.mvcusuario.dto.UserSEDTO;
 import br.com.fiap.mvcusuario.models.User;
 import br.com.fiap.mvcusuario.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,19 +46,20 @@ public class UserService {
         return new UserDTO(entity);
     }
 
-    private void copyDtoToEntity(UserDTO dto, User entity) {
-        entity.setNome(dto.getNome());
-        entity.setEmail(dto.getEmail());
-        entity.setSenha(dto.getSenha());
-        entity.setDataNascimento(dto.getDataNascimento());
-    }
-
     @Transactional
     public UserDTO updateDTO(Long id, UserDTO dto){
         User entity = repository.getReferenceById(id);
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new UserDTO(entity);
+    }
+
+    @Transactional
+    public UserSEDTO updateSEDTO(Long id, UserSEDTO dto){
+        User entity = repository.getReferenceById(id);
+        copySEDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new UserSEDTO(entity);
     }
 
     @Transactional
@@ -70,5 +72,17 @@ public class UserService {
         } catch (DataIntegrityViolationException e){
             throw new IllegalArgumentException("Falha de integridade referencial");
         }
+    }
+
+    private void copyDtoToEntity(UserDTO dto, User entity) {
+        entity.setNome(dto.getNome());
+        entity.setEmail(dto.getEmail());
+        entity.setSenha(dto.getSenha());
+        entity.setDataNascimento(dto.getDataNascimento());
+    }
+
+    private void copySEDtoToEntity(UserSEDTO dto, User entity) {
+        entity.setEmail(dto.getEmail());
+        entity.setSenha(dto.getSenha());
     }
 }

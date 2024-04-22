@@ -44,6 +44,11 @@
                                 <input class="btn btn-primary btn-xs" type="submit" value="Editar">
                             </form>
                         </td>
+                        <td>
+                            <form action="" th:action="@{/users/se/{id}(id=${userSEDTO.id})}" th:object="${userSEDTO}" method="get">
+                                <input class="btn btn-primary btn-xs" type="submit" value="Editar MIN">
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
