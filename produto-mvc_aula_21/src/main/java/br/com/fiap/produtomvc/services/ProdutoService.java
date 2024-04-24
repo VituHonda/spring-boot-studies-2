@@ -1,5 +1,6 @@
 package br.com.fiap.produtomvc.services;
 
+import br.com.fiap.produtomvc.models.Loja;
 import br.com.fiap.produtomvc.models.Produto;
 import br.com.fiap.produtomvc.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -68,6 +69,13 @@ public class ProdutoService {
         produto.setDescricao(entity.getDescricao());
         produto.setValor(entity.getValor());
         produto.setCategoria(entity.getCategoria());
+
+        produto.getLojas().clear();
+        for(Loja loja: entity.getLojas()) {
+            Loja loja1 = new Loja();
+            loja1.setId(loja.getId());
+            produto.getLojas().add(loja1);
+        }
     }
 
 

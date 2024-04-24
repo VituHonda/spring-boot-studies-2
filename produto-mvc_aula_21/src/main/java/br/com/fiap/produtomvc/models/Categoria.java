@@ -1,11 +1,6 @@
 package br.com.fiap.produtomvc.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -35,7 +30,7 @@ public class Categoria {
     @Size(min = 3, message = "O nome deve ter no mínimo 3 carateres")
     private String nome;
 
-    @OneToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
     private List<Produto> produtos = new ArrayList<>();
 
 

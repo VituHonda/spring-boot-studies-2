@@ -1,8 +1,10 @@
 package br.com.fiap.produtomvc.controllers;
 
 import br.com.fiap.produtomvc.models.Categoria;
+import br.com.fiap.produtomvc.models.Loja;
 import br.com.fiap.produtomvc.models.Produto;
 import br.com.fiap.produtomvc.services.CategoriaService;
+import br.com.fiap.produtomvc.services.LojaService;
 import br.com.fiap.produtomvc.services.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +30,19 @@ public class ProdutoController {
     @Autowired
     //private CategoriaRepository categoriaRepository;
     private CategoriaService categoriaService;
+    @Autowired
+    private LojaService lojaService;
 
     @ModelAttribute("categorias")
     public List<Categoria> categorias(){
        //return categoriaRepository.findAll();
         return categoriaService.findAll();
+    }
+
+    @ModelAttribute("lojas")
+    public List<Loja> lojas(){
+        //return categoriaRepository.findAll();
+        return lojaService.findAll();
     }
 
     //URL - localhost:8080/produtos/form
