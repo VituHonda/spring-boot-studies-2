@@ -19,27 +19,22 @@ public class LojaService {
     }
 
     @Transactional(readOnly = true)
-    public Loja insert(Loja loja) {
-        return repository.save(loja);
-    }
-
-    @Transactional(readOnly = true)
     public Loja findById(Long id) {
-        Loja loja = repository.findById(id).orElseThrow(
+        Loja entity = repository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Recurso inválido")
         );
-        return loja;
+        return entity;
     }
 
     public Loja update(Long id, Loja entity) {
         try {
             Loja loja = repository.getReferenceById(id);
-            copyToLoja(entity, loja);
+            loja.setNome(entity.getNome());
             loja = repository.save(loja);
+            return loja;
         } catch(Exception e) {
             throw new IllegalArgumentException("Recurso não encontrado");
         }
-        return entity;
     }
 
     public void delete(Long id) {
