@@ -1,7 +1,7 @@
 package br.com.fiap.mvcusuario.services;
 
 import br.com.fiap.mvcusuario.dto.UserDTO;
-import br.com.fiap.mvcusuario.dto.UserSEDTO;
+import br.com.fiap.mvcusuario.dto.UserMinDTO;
 import br.com.fiap.mvcusuario.models.User;
 import br.com.fiap.mvcusuario.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,18 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id){
-
         User user = repository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Recurso não encontrado")
         );
-
         return new UserDTO(user);
+    }
+
+
+    @Transactional(readOnly = true)
+    public UserMinDTO findMinById(Long id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Recurso não encontrado"));
+        return new UserMinDTO(user);
     }
 
     @Transactional(readOnly = true)
@@ -55,11 +61,11 @@ public class UserService {
     }
 
     @Transactional
-    public UserSEDTO updateSEDTO(Long id, UserSEDTO dto){
+    public UserMinDTO updateMin(Long id, UserMinDTO dto) {
         User entity = repository.getReferenceById(id);
-        copySEDtoToEntity(dto, entity);
+        copyDtoMinToEntity(dto, entity);
         entity = repository.save(entity);
-        return new UserSEDTO(entity);
+        return new UserMinDTO(entity);
     }
 
     @Transactional
@@ -81,7 +87,7 @@ public class UserService {
         entity.setDataNascimento(dto.getDataNascimento());
     }
 
-    private void copySEDtoToEntity(UserSEDTO dto, User entity) {
+    private void copyDtoMinToEntity(UserMinDTO dto, User entity) {
         entity.setEmail(dto.getEmail());
         entity.setSenha(dto.getSenha());
     }

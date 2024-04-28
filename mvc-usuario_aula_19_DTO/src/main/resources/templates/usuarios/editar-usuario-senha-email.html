@@ -17,9 +17,9 @@
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" th:action="@{/users/se/{id}(id=${userSEDTO.id})}" th:object="${userSEDTO}" method="post">
+                <form action="#" th:action="@{/users/{id}(id=${userSEDTO.id})}" th:object="${userSEDTO}">
 
-                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="_method" value="patch">
 
                     <input type="hidden" name="moment" id="moment" th:field="*{moment}">
 

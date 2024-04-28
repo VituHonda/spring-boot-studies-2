@@ -45,6 +45,12 @@
                             </form>
                         </td>
 
+                        <td>
+                            <form action="" th:action="@{/users/save/{id}(id=${userDTO.id})}" th:object="${userDTO}" method="get">
+                                <input class="btn btn-warning btn-xs" type="submit" value="E-mail-Senha MIN">
+                            </form>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>

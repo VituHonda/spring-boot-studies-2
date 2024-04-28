@@ -1,8 +1,7 @@
 package br.com.fiap.mvcusuario.controllers;
 
 import br.com.fiap.mvcusuario.dto.UserDTO;
-import br.com.fiap.mvcusuario.dto.UserSEDTO;
-import br.com.fiap.mvcusuario.models.User;
+import br.com.fiap.mvcusuario.dto.UserMinDTO;
 import br.com.fiap.mvcusuario.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,14 @@ public class UserController {
         return "/usuarios/editar-usuario";
     }
 
+
+    @GetMapping("/save/{id}")
+    public String findMinById(@PathVariable("id") Long id, Model model){
+        UserMinDTO userMinDTO = service.findMinById(id);
+        model.addAttribute("userMinDTO", userMinDTO);
+        return "/usuarios/editar-senha-usuario";
+    }
+
     @PutMapping("/{id}")
     public String update(@PathVariable("id") Long id,
                          @Valid UserDTO userDTO,
@@ -59,6 +66,18 @@ public class UserController {
             return "/usuarios/editar-usuario";
         }
         service.updateDTO(id,userDTO);
+        return "redirect:/users";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@PathVariable("id") Long id,
+                         @Valid UserMinDTO userMinDTO,
+                         BindingResult result){
+        if(result.hasErrors()){
+            userMinDTO.setId(id);
+            return "/usuarios/editar-senha-usuario";
+        }
+        service.updateMin(id, userMinDTO);
         return "redirect:/users";
     }
 

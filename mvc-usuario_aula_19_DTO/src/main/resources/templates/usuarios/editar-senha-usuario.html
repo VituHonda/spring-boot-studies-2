@@ -2,24 +2,25 @@
 <html lang="pt-br" layout:decorate="~{template.html}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://thymeleaf.org">
-
 <head>
-    <title>Cadastro de Usuário</title>
+    <title>Title</title>
 </head>
-
 <body>
+<h1>Editar</h1>
 <div layout:fragment="conteudo">
     <div class="container">
         <div class="row">
             <div class="col">
-                <h2>Cadastro Usuário</h2>
+                <h2>Alteração de Usuário</h2>
                 <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
                     <button class="btn-close" data-bs-dismiss="alert" type="button"></button>
-
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" method="post" th:action="@{/usersDTO}" th:object="${userDTO}">
+                <form action="#" method="post" th:action="@{/users/{id}(id=${userMinDTO.id})}"
+                      th:object="${userMinDTO}">
+
+                    <input name="_method" type="hidden" value="patch">
 
                     <div class="row mb-3">
                         <label class="col-sm-1 col-form-label" for="email">E-mail:</label>
@@ -43,7 +44,7 @@
                         </div>
                     </div>
 
-                    <input class="btn btn-primary" type="submit" value="Salvar"/>
+                    <input class="btn btn-primary" type="submit" value="Alterar"/>
                 </form>
 
             </div>
@@ -52,5 +53,3 @@
 </div>
 </body>
 </html>
-
-
