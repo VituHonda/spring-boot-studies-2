@@ -61,21 +61,23 @@
                         </div>
                     </div>
 
-<!--                    <div class="form-row">-->
-<!--                        <div class="row mb-3">-->
-<!--                            <label class="col-sm-1 col-form-label">Loja:</label>-->
-<!--                            <div class="col-sm-3">-->
-<!--                                <select class="choosen-select form-control" data-placehold="lojas" id="lojas"-->
-<!--                                        multiple="true" name="lojas" th:field="${produto.lojas}">-->
-<!--                                    <option th:each="lojas :${lojas}" th:text="${loja.nome}" th:value="${loja.id}"/>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                            <div class="col-sm-5">-->
-<!--								<span class="mensagem" th:errors="*{lojas}"-->
-<!--                                      th:if="${#fields.hasErrors('lojas')}"></span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="form-row">
+                        <div class="row mb-3">
+                            <label class="col-sm-1 col-form-label">Lojas:</label>
+                            <div class="col-sm-3">
+                                <select class="chosen-select form-control" data-placehold="lojas" id="lojas" multiple="true"
+                                        name="lojas" th:field="${produto.lojas}">
+                                    <option th:each="loja :${lojas}"
+                                            th:text="${loja.nome}"
+                                            th:value="${loja.id}"/>
+                                </select>
+                            </div>
+                            <div class="col-sm-5">
+								<span class="mensagem" th:errors="*{lojas}"
+                                      th:if="${#fields.hasErrors('lojas')}"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-1 col-form-label" for="valor">Valor:</label>

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class LojaService {
+
     @Autowired
     private LojaRepository repository;
 
@@ -26,6 +27,7 @@ public class LojaService {
         return entity;
     }
 
+    @Transactional
     public Loja update(Long id, Loja entity) {
         try {
             Loja loja = repository.getReferenceById(id);
@@ -37,6 +39,7 @@ public class LojaService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         if(!repository.existsById(id)){
             throw new IllegalArgumentException("Loja inválido - id: " + id);
@@ -46,13 +49,6 @@ public class LojaService {
         } catch (Exception e){
             throw new IllegalArgumentException("Loja inválido - id: " + id);
         }
-    }
-
-
-
-    private void copyToLoja(Loja entity, Loja loja) {
-        loja.setNome(entity.getNome());
-        loja.setProdutos(entity.getProdutos());
     }
 
 }

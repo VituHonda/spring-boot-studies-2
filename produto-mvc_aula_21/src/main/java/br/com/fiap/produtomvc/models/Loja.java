@@ -45,11 +45,4 @@ public class Loja {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Loja{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                '}';
-    }
 }

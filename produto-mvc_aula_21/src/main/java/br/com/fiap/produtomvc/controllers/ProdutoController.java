@@ -30,6 +30,7 @@ public class ProdutoController {
     @Autowired
     //private CategoriaRepository categoriaRepository;
     private CategoriaService categoriaService;
+
     @Autowired
     private LojaService lojaService;
 

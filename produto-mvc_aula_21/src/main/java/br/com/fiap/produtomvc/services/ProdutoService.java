@@ -71,7 +71,7 @@ public class ProdutoService {
         produto.setCategoria(entity.getCategoria());
 
         produto.getLojas().clear();
-        for(Loja loja: entity.getLojas()) {
+        for(Loja loja : entity.getLojas()) {
             Loja loja1 = new Loja();
             loja1.setId(loja.getId());
             produto.getLojas().add(loja1);
