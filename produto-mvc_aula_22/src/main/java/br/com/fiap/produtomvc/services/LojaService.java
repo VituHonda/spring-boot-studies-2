@@ -23,6 +23,20 @@ public class LojaService {
         return list.stream().map(LojaDTO::new).collect(Collectors.toList());
     }
 
+    @Transactional
+    public LojaDTO insert(LojaDTO dto) {
+
+        Loja entity = new Loja();
+        copyToDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new LojaDTO(entity);
+
+    }
+
+    private void copyToDtoToEntity(LojaDTO dto, Loja entity) {
+        entity.setNome(dto.getNome());
+    }
+
     @Transactional(readOnly = true)
     public LojaDTO findById(Long id){
         Loja entity = repository.findById(id).orElseThrow(
