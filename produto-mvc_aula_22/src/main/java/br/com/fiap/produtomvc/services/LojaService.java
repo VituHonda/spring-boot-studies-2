@@ -1,5 +1,6 @@
 package br.com.fiap.produtomvc.services;
 
+import br.com.fiap.produtomvc.dto.LojaDTO;
 import br.com.fiap.produtomvc.models.Loja;
 import br.com.fiap.produtomvc.repository.LojaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LojaService {
@@ -16,25 +18,26 @@ public class LojaService {
     private LojaRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Loja> findAll(){
-        return repository.findAll();
+    public List<LojaDTO> findAll(){
+        List<Loja> list = repository.findAll();
+        return list.stream().map(LojaDTO::new).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public Loja findById(Long id){
+    public LojaDTO findById(Long id){
         Loja entity = repository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Recurso não encontrado")
         );
-        return entity;
+        return new LojaDTO(entity);
     }
 
     @Transactional
-    public Loja update(Long id, Loja entity){
+    public LojaDTO update(Long id, LojaDTO dto){
         try{
-            Loja loja = repository.getReferenceById(id);
-            loja.setNome(entity.getNome());
-            loja = repository.save(loja);
-            return loja;
+            Loja entity = repository.getReferenceById(id);
+            entity.setNome(dto.getNome());
+            entity = repository.save(entity);
+            return new LojaDTO(entity);
         } catch (EntityNotFoundException e){
             throw new IllegalArgumentException("Recurso não encontrado");
         }

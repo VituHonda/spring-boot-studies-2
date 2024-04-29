@@ -1,8 +1,7 @@
 package br.com.fiap.produtomvc.controllers;
 
 import br.com.fiap.produtomvc.dto.CategoriaDTO;
-import br.com.fiap.produtomvc.models.Categoria;
-import br.com.fiap.produtomvc.models.Loja;
+import br.com.fiap.produtomvc.dto.LojaDTO;
 import br.com.fiap.produtomvc.models.Produto;
 import br.com.fiap.produtomvc.services.CategoriaService;
 import br.com.fiap.produtomvc.services.LojaService;
@@ -31,7 +30,7 @@ public class ProdutoController {
     private LojaService lojaService;
 
     @ModelAttribute("lojas")
-    public List<Loja> lojas(){
+    public List<LojaDTO> lojas(){
         return lojaService.findAll();
     }
 
