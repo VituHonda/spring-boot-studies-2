@@ -1,7 +1,9 @@
 package br.com.fiap.produtomvc.services;
 
+import br.com.fiap.produtomvc.dto.ProdutoDTO;
 import br.com.fiap.produtomvc.models.Loja;
 import br.com.fiap.produtomvc.models.Produto;
+import br.com.fiap.produtomvc.repository.LojaRepository;
 import br.com.fiap.produtomvc.repository.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -17,35 +20,42 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository repository;
 
+    @Autowired
+    private LojaRepository lojaRepository;
+
     //Método que retorna uma lista de Produtos
     @Transactional(readOnly = true)
-    public List<Produto> findAll() {
-        return repository.findAll();
+    public List<ProdutoDTO> findAll() {
+        List<Produto> list = repository.findAll();
+        return list.stream().map(ProdutoDTO::new).collect(Collectors.toList());
     }
 
     //Método para inserir Produto
     @Transactional
-    public Produto insert(Produto produto) {
-        return repository.save(produto);
+    public ProdutoDTO insert(ProdutoDTO dto) {
+        Produto entity = new Produto();
+        copyToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ProdutoDTO(entity);
     }
 
     //Método para buscar Produto por Id
     @Transactional(readOnly = true)
-    public Produto findById(Long id) {
+    public ProdutoDTO findById(Long id) {
 
         Produto produto = repository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Recurso inválido - " + id)
         );
-        return produto;
+        return new ProdutoDTO(produto);
     }
 
     @Transactional
-    public Produto update(Long id, Produto entity) {
+    public Produto update(Long id, ProdutoDTO dto) {
         try {
-            Produto produto = repository.getReferenceById(id);
-            copyToProduto(entity, produto);
-            produto = repository.save(produto);
-            return produto;
+            Produto entity = repository.getReferenceById(id);
+            copyToEntity(dto, entity);
+            entity = repository.save(entity);
+            return entity;
         } catch (EntityNotFoundException e) {
             throw new IllegalArgumentException("Recurso não encontrado");
         }
@@ -64,17 +74,16 @@ public class ProdutoService {
         }
     }
 
-    private void copyToProduto(Produto entity, Produto produto) {
-        produto.setNome(entity.getNome());
-        produto.setDescricao(entity.getDescricao());
-        produto.setValor(entity.getValor());
-        produto.setCategoria(entity.getCategoria());
+    private void copyToEntity(ProdutoDTO dto, Produto entity) {
+        entity.setNome(dto.getNome());
+        entity.setDescricao(dto.getDescricao());
+        entity.setValor(dto.getValor());
+        entity.setCategoria(dto.getCategoria());
 
-        produto.getLojas().clear();
-        for (Loja loja : entity.getLojas()) {
-            Loja loja1 = new Loja();
-            loja1.setId(loja.getId());
-            produto.getLojas().add(loja1);
+        entity.getLojas().clear();
+        for (Loja item : dto.getLojas()) {
+            Loja loja = lojaRepository.getReferenceById(item.getId());
+            entity.getLojas().add(loja);
         }
     }
 

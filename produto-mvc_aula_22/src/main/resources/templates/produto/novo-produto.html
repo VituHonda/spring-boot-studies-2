@@ -19,7 +19,7 @@
                     <span th:text="${mensagem}"></span>
                 </div>
 
-                <form action="#" method="post" th:action="@{/produtos}" th:object="${produto}">
+                <form action="#" method="post" th:action="@{/produtos}" th:object="${produtoDTO}">
 
                     <div class="row mb-3">
                         <label class="col-sm-1 col-form-label" for="nome">Nome:</label>
@@ -67,7 +67,7 @@
                             <label class="col-sm-1 col-form-label">Lojas:</label>
                             <div class="col-sm-3">
                                 <select class="chosen-select form-control" data-placehold="lojas" id="lojas" multiple="true"
-                                        name="lojas" th:field="${produto.lojas}">
+                                        name="lojas" th:field="${produtoDTO.lojas}">
                                     <option th:each="loja :${lojas}"
                                             th:text="${loja.nome}"
                                             th:value="${loja.id}"/>

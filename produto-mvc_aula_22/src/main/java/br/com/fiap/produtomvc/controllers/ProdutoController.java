@@ -2,6 +2,7 @@ package br.com.fiap.produtomvc.controllers;
 
 import br.com.fiap.produtomvc.dto.CategoriaDTO;
 import br.com.fiap.produtomvc.dto.LojaDTO;
+import br.com.fiap.produtomvc.dto.ProdutoDTO;
 import br.com.fiap.produtomvc.models.Produto;
 import br.com.fiap.produtomvc.services.CategoriaService;
 import br.com.fiap.produtomvc.services.LojaService;
@@ -41,18 +42,18 @@ public class ProdutoController {
 
     @GetMapping("/form")
     public String loadForm(Model model) {
-        model.addAttribute("produto", new Produto());
+        model.addAttribute("produtoDTO", new ProdutoDTO());
         return "produto/novo-produto";
     }
 
     @PostMapping()
-    public String insert(@Valid Produto produto,
+    public String insert(@Valid ProdutoDTO produtoDTO,
                          BindingResult result,
                          RedirectAttributes attributes) {
         if (result.hasErrors()) {
             return "produto/novo-produto";
         }
-        produto = service.insert(produto);
+        produtoDTO = service.insert(produtoDTO);
         attributes.addFlashAttribute("mensagem", "Produto salvo com sucesso");
         return "redirect:/produtos/form";
     }
@@ -65,20 +66,20 @@ public class ProdutoController {
 
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
-        Produto produto = service.findById(id);
-        model.addAttribute("produto", produto);
+        ProdutoDTO produtoDTO = service.findById(id);
+        model.addAttribute("produtoDTO", produtoDTO);
         return "/produto/editar-produto";
     }
 
     @PutMapping("/{id}")
     public String update(@PathVariable("id") Long id,
-                         @Valid Produto produto,
+                         @Valid ProdutoDTO produtoDTO,
                          BindingResult result) {
         if (result.hasErrors()) {
-            produto.setId(id);
+            produtoDTO.setId(id);
             return "/produto/editar-produto";
         }
-        service.update(id, produto);
+        service.update(id, produtoDTO);
         return "redirect:/produtos";
     }
 
