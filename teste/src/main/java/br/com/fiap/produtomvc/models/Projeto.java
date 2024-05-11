@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,9 @@ public class Projeto {
     @NotBlank(message = "Campo requerido")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 carateres")
     private String nome;
+
+    @ManyToMany(mappedBy = "projetos", fetch = FetchType.EAGER)
+    private Set<Empregado> empregados = new HashSet<>();
 
     @Override
     public String toString() {

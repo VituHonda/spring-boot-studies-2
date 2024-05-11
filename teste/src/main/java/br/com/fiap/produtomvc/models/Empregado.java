@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,10 +31,14 @@ public class Empregado {
     private Double salario;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "departamento_id", nullable = false)
+    @JoinColumn(name = "departamento_id")
     private Departamento departamento;
 
-    private Projeto projeto;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_empregado_projeto",
+    joinColumns = @JoinColumn(name = "empregado_id"),
+    inverseJoinColumns = @JoinColumn(name = "projeto_id"))
+    private Set<Projeto> projetos = new HashSet<>();
 
     @Override
     public String toString() {

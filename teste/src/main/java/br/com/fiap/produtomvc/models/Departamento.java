@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -26,6 +28,10 @@ public class Departamento {
     @NotBlank(message = "Campo requerido")
     @Size(min = 3, message = "O nome deve ter no mínimo 3 carateres")
     private String nome;
+
+    @OneToMany(mappedBy = "departamento")
+    private List<Empregado> empregados = new ArrayList<>();
+
 
     @Override
     public String toString() {
