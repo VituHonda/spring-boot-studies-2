@@ -3,7 +3,6 @@ package br.com.fiap.produtomvc.controllers;
 import br.com.fiap.produtomvc.dto.CategoriaDTO;
 import br.com.fiap.produtomvc.dto.LojaDTO;
 import br.com.fiap.produtomvc.dto.ProdutoDTO;
-import br.com.fiap.produtomvc.models.Produto;
 import br.com.fiap.produtomvc.services.CategoriaService;
 import br.com.fiap.produtomvc.services.LojaService;
 import br.com.fiap.produtomvc.services.ProdutoService;
@@ -43,7 +42,7 @@ public class ProdutoController {
     @GetMapping("/form")
     public String loadForm(Model model) {
         model.addAttribute("produtoDTO", new ProdutoDTO());
-        return "produto/novo-produto";
+        return "novo-empregado";
     }
 
     @PostMapping()
@@ -51,7 +50,7 @@ public class ProdutoController {
                          BindingResult result,
                          RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            return "produto/novo-produto";
+            return "novo-empregado";
         }
         produtoDTO = service.insert(produtoDTO);
         attributes.addFlashAttribute("mensagem", "Produto salvo com sucesso");

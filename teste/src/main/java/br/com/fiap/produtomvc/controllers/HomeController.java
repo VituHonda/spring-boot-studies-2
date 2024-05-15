@@ -10,6 +10,6 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model){
         model.addAttribute("msg", "Bem-vindo(a) à FIAP Developers");
-        return "/produto/index";
+        return "index";
     }
 }
