@@ -22,6 +22,12 @@ public class ProdutoController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> findById(@PathVariable Long id) {
+        ProdutoDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
     
 
 
