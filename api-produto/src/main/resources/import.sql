@@ -4,6 +4,7 @@ INSERT INTO tb_categoria(nome) VALUES('Notebook');
 INSERT INTO tb_categoria(nome) VALUES('Tablet');
 INSERT INTO tb_categoria(nome) VALUES('Mouse');
 INSERT INTO tb_categoria(nome) VALUES('Teclado');
+INSERT INTO tb_categoria(nome) VALUES('Sorteios');
 
 INSERT INTO tb_loja (nome) VALUES ('Americanas');
 INSERT INTO tb_loja (nome) VALUES ('Fast Shop');
