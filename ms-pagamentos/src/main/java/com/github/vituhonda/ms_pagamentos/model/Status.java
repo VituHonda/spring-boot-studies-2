@@ -1,4 +1,4 @@
-package com.github.vituhonda.ms_pagamentos.mode;
+package com.github.vituhonda.ms_pagamentos.model;
 
 public enum Status {
     CRIADO,
