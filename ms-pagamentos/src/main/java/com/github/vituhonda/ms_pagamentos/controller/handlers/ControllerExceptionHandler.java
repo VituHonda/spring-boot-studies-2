@@ -1,5 +1,6 @@
 package com.github.vituhonda.ms_pagamentos.controller.handlers;
 
+import com.github.vituhonda.ms_pagamentos.controller.exception.DatabaseException;
 import com.github.vituhonda.ms_pagamentos.controller.exception.ResourceNotFoundException;
 import com.github.vituhonda.ms_pagamentos.dto.CustomErrorDTO;
 import com.github.vituhonda.ms_pagamentos.dto.ValidationErrorDTO;
@@ -11,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.Instant;
 
@@ -35,5 +37,19 @@ public class ControllerExceptionHandler {
             validationError.addError(fieldError.getField(), fieldError.getDefaultMessage());
         }
         return ResponseEntity.status(status).body(validationError);
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<CustomErrorDTO> handlerMethodValidation(HandlerMethodValidationException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO error = new CustomErrorDTO(Instant.now().toString(), status.value(), "Falha na validação dos dados", request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomErrorDTO> databaseException(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        CustomErrorDTO error = new CustomErrorDTO(Instant.now().toString(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
     }
 }

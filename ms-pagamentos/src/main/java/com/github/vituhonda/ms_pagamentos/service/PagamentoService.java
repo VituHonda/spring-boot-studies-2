@@ -1,5 +1,6 @@
 package com.github.vituhonda.ms_pagamentos.service;
 
+import com.github.vituhonda.ms_pagamentos.controller.exception.DatabaseException;
 import com.github.vituhonda.ms_pagamentos.controller.exception.ResourceNotFoundException;
 import com.github.vituhonda.ms_pagamentos.dto.PagamentoDTO;
 import com.github.vituhonda.ms_pagamentos.model.Pagamento;
@@ -7,6 +8,7 @@ import com.github.vituhonda.ms_pagamentos.repository.PagamentoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,8 +50,8 @@ public class PagamentoService {
        }
        try {
            repository.deleteById(id);
-       } catch(EntityNotFoundException e) {
-           throw new EntityNotFoundException("Recurso não encontrado");
+       } catch(DataIntegrityViolationException e) {
+           throw new DatabaseException("Falha na integridade referencial");
         }
     }
 
