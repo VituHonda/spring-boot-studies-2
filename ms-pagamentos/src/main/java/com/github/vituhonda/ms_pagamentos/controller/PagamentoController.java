@@ -4,6 +4,7 @@ import com.github.vituhonda.ms_pagamentos.dto.PagamentoDTO;
 import com.github.vituhonda.ms_pagamentos.model.Pagamento;
 import com.github.vituhonda.ms_pagamentos.service.PagamentoService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jdk.javadoc.doclet.Reporter;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,4 +50,11 @@ public class PagamentoController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PagamentoDTO> update(@PathVariable @NotNull Long id, @RequestBody @Valid PagamentoDTO dto) {
+        dto = service.update(id,dto);
+        return ResponseEntity.ok(dto);
+    }
+
 }

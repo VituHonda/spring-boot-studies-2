@@ -1,10 +1,12 @@
 package com.github.vituhonda.ms_pagamentos.service;
 
+import com.github.vituhonda.ms_pagamentos.controller.exception.ResourceNotFoundException;
 import com.github.vituhonda.ms_pagamentos.dto.PagamentoDTO;
 import com.github.vituhonda.ms_pagamentos.model.Pagamento;
 import com.github.vituhonda.ms_pagamentos.repository.PagamentoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,7 @@ public class PagamentoService {
     @Transactional(readOnly = true)
     public PagamentoDTO findById(Long id) {
         Pagamento entity = repository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Recurso não encontrado")
+                () -> new ResourceNotFoundException("Recurso não encontrado")
         );
         return new PagamentoDTO(entity);
     }
@@ -42,12 +44,24 @@ public class PagamentoService {
     @Transactional
     public void delete(Long id) {
        if(!repository.existsById(id)) {
-           throw new EntityNotFoundException("Recurso não encontrado");
+           throw new ResourceNotFoundException("Recurso não encontrado");
        }
        try {
            repository.deleteById(id);
        } catch(EntityNotFoundException e) {
            throw new EntityNotFoundException("Recurso não encontrado");
+        }
+    }
+
+    @Transactional
+    public PagamentoDTO update(Long id, PagamentoDTO dto) {
+        try {
+            Pagamento entity = repository.getReferenceById(id);
+            CopyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new PagamentoDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado! Id: " + id);
         }
     }
 
