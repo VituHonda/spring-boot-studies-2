@@ -53,8 +53,16 @@ public class ProdutoController {
     }
 
     @GetMapping("{id}")
-    public Produto findById(@PathVariable Long id) {
-//        Optional<Produto> produto = produtoService.findById(id);
+    public ProdutoResponseDto findById(@PathVariable Long id) {
+        Optional<Produto> opt = produtoService.findById(id);
+        if(opt.isPresent()) {
+            Produto produto = opt.get();
+            return null;
+        } else {
+            new RuntimeException("id inexistente");
+        }
+
+
         return null;
     }
 

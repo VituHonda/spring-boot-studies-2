@@ -1,5 +1,6 @@
 package br.com.fiap.ecommerce.service;
 
+import br.com.fiap.ecommerce.dto.ProdutoResponseDto;
 import br.com.fiap.ecommerce.model.Produto;
 import br.com.fiap.ecommerce.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
