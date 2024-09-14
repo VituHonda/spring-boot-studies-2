@@ -1,6 +1,7 @@
 package br.com.fiap.ecommerce.controller;
 
 import br.com.fiap.ecommerce.dto.ProdutoRequestCreateDto;
+import br.com.fiap.ecommerce.dto.ProdutoRequestUpdateDto;
 import br.com.fiap.ecommerce.dto.ProdutoResponseDto;
 import br.com.fiap.ecommerce.model.Produto;
 import br.com.fiap.ecommerce.service.ProdutoService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/produtos")
@@ -24,23 +26,36 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ProdutoResponseDto create(ProdutoRequestCreateDto dto) {
+    public ProdutoResponseDto create(@RequestBody ProdutoRequestCreateDto dto) {
+
+
+
         return null;
     }
 
-    @GetMapping("/id")
-    public Produto findById() {
+    @PutMapping("{id}")
+    public ProdutoResponseDto update(@PathVariable Long id, @RequestBody ProdutoRequestUpdateDto dto) {
+        if(!produtoService.existsById(id)) {
+            new RuntimeException("id inexistente");
+        }
+        // ProdutoUpdatedto -> produto
+        // produto saved = service.save(produto)
+        // saved - > produtoResponse
         return null;
     }
 
-    @PutMapping("/id")
-    public void update() {
-
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        if(!produtoService.existsById(id)) {
+            new RuntimeException("id inexistente");
+        }
+        produtoService.delete(id);
     }
 
-    @DeleteMapping("/id")
-    public void delete() {
-
+    @GetMapping("{id}")
+    public Produto findById(@PathVariable Long id) {
+//        Optional<Produto> produto = produtoService.findById(id);
+        return null;
     }
 
 
