@@ -29,10 +29,9 @@ public class ProdutoController {
 
     @PostMapping
     public ProdutoResponseDto create(@RequestBody ProdutoRequestCreateDto dto) {
-
-
-
-        return null;
+        Produto produto = dto.toModel();
+        Produto saved = produtoService.save(produto);
+        return new ProdutoResponseDto().toDto(saved);
     }
 
     @PutMapping("{id}")
