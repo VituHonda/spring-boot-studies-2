@@ -6,6 +6,8 @@ import br.com.fiap.ecommerce.dto.ProdutoResponseDto;
 import br.com.fiap.ecommerce.model.Produto;
 import br.com.fiap.ecommerce.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,10 +30,12 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ProdutoResponseDto create(@RequestBody ProdutoRequestCreateDto dto) {
-        Produto produto = dto.toModel();
-        Produto saved = produtoService.save(produto);
-        return new ProdutoResponseDto().toDto(saved);
+    public ResponseEntity<ProdutoResponseDto> create(@RequestBody ProdutoRequestCreateDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+               new ProdutoResponseDto().toDto(
+                       produtoService.save(dto.toModel())
+               )
+        );
     }
     
 /////////////////////////////////////////////////////////////////////////////////
@@ -39,12 +43,9 @@ public class ProdutoController {
     @PutMapping("{id}")
     public ProdutoResponseDto update(@PathVariable Long id, @RequestBody ProdutoRequestUpdateDto dto) {
         if(!produtoService.existsById(id)) {
-            new RuntimeException("id inexistente");
+            throw new RuntimeException("id inexistente");
         }
-        // ProdutoUpdatedto -> produto
-        // produto saved = service.save(produto)
-        // saved - > produtoResponse
-        return null;
+        return new ProdutoResponseDto().toDto(produtoService.save(dto.toModel(id)));
     }
 
     @DeleteMapping("{id}")
@@ -57,14 +58,11 @@ public class ProdutoController {
 
     @GetMapping("{id}")
     public ProdutoResponseDto findById(@PathVariable Long id) {
-        Optional<Produto> opt = produtoService.findById(id);
-        Produto produto = null;
-        if(opt.isPresent()) {
-            produto = opt.get();
-        } else {
-            new RuntimeException("id inexistente");
-        }
-        return null;
+        ProdutoResponseDto dto = produtoService
+                .findById(id)
+                .map(e -> new ProdutoResponseDto().toDto(e))
+                .orElseThrow(() -> new RuntimeException("id inexistente"));;
+        return dto;
     }
 
 

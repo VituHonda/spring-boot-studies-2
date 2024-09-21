@@ -1,10 +1,14 @@
 package br.com.fiap.ecommerce.dto;
 
 import br.com.fiap.ecommerce.model.Produto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class ProdutoRequestCreateDto {
